@@ -78,6 +78,7 @@ export function useRecentTransactions(limit = 20) {
         )
         .slice(0, limit);
     },
+    staleTime: 30000,
   });
 }
 
@@ -126,6 +127,7 @@ export function useCategoryBreakdown(period: Period = "month") {
         .map(([name, value]) => ({ name, value }))
         .sort((a, b) => b.value - a.value);
     },
+    staleTime: 60000,
   });
 }
 
@@ -161,6 +163,7 @@ export function useNetWorthTrend() {
       }
       return points;
     },
+    staleTime: 300000,
   });
 }
 
@@ -240,5 +243,6 @@ export function useStatisticsData(period: Period) {
         expense: expMap[label] ?? 0,
       }));
     },
+    staleTime: 60000,
   });
 }

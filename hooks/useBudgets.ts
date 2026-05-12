@@ -72,6 +72,7 @@ export function useBudgets() {
         };
       });
     },
+    staleTime: 30000,
   });
 }
 
@@ -97,5 +98,6 @@ export function useMonthlyIncome() {
 
       return (data ?? []).reduce((s, r) => s + Number(r.income_amount), 0);
     },
+    staleTime: 60000,
   });
 }

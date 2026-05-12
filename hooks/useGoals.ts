@@ -28,7 +28,9 @@ export function useGoals() {
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });
 
+
       if (error) throw error;
+      // drop created_at — not used in UI
       return (data ?? []).map((g) => ({
         ...g,
         target_amount: Number(g.target_amount),
@@ -36,5 +38,6 @@ export function useGoals() {
         remaining_amount: Number(g.remaining_amount),
       }));
     },
+    staleTime: 30000,
   });
 }

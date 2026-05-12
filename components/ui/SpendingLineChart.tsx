@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import {
   ResponsiveContainer,
   LineChart,
@@ -17,7 +18,7 @@ interface Props {
   data: ChartPoint[];
 }
 
-export function SpendingLineChart({ data }: Props) {
+export const SpendingLineChart = memo(function SpendingLineChart({ data }: Props) {
   return (
     <ResponsiveContainer width="100%" height={220}>
       <LineChart data={data} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
@@ -78,4 +79,4 @@ export function SpendingLineChart({ data }: Props) {
       </LineChart>
     </ResponsiveContainer>
   );
-}
+});

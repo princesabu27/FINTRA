@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 export interface AppNotification {
@@ -29,13 +30,15 @@ export function useNotifications() {
       if (error) throw error;
       return data ?? [];
     },
-    refetchInterval: 30000,
+    refetchInterval: 60000,
+    refetchOnWindowFocus: false,
+    staleTime: 30000,
   });
 }
 
 export function useUnreadCount() {
   const { data } = useNotifications();
-  return (data ?? []).filter((n) => !n.is_read).length;
+  return useMemo(() => (data ?? []).filter((n) => !n.is_read).length, [data]);
 }
 
 export function useMarkAllRead() {

@@ -6,6 +6,7 @@ import {
   User, Edit3, Check, X, LogOut, ChevronRight,
   BarChart2, Wallet, Target, PieChart, Shield, Sparkles, Tag, Sun, Moon, FileSpreadsheet,
 } from "lucide-react";
+import Image from "next/image";
 import { useTheme } from "@/hooks/useTheme";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -97,8 +98,7 @@ export default function ProfilePage() {
           <div className="relative mb-4">
             <div className="w-20 h-20 rounded-3xl bg-brand/20 border-2 border-brand/40 flex items-center justify-center">
               {profile?.profile_pic ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={profile.profile_pic} alt="avatar" className="w-full h-full rounded-3xl object-cover" />
+                <Image src={profile.profile_pic} alt="avatar" width={80} height={80} className="w-full h-full rounded-3xl object-cover" priority />
               ) : (
                 <span className="text-brand text-2xl font-bold">{initials}</span>
               )}

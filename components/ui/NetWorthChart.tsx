@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis,
   CartesianGrid, Tooltip,
@@ -23,9 +24,9 @@ function CustomTooltip({ active, payload, label }: any) {
   );
 }
 
-export function NetWorthChart({ data }: Props) {
+export const NetWorthChart = memo(function NetWorthChart({ data }: Props) {
   if (!data.length) return (
-    <div className="h-[180px] flex items-center justify-center text-muted text-sm">No data</div>
+    <div className="h-45 flex items-center justify-center text-muted text-sm">No data</div>
   );
 
   const positive = (data[data.length - 1]?.balance ?? 0) >= 0;
@@ -61,4 +62,4 @@ export function NetWorthChart({ data }: Props) {
       </AreaChart>
     </ResponsiveContainer>
   );
-}
+});

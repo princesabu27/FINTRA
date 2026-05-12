@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Bell, ChevronRight, TrendingUp, TrendingDown, Percent, Target } from "lucide-react";
@@ -86,7 +87,7 @@ export function DashboardClient({ firstName, lastName, profilePic, initialAccoun
             {/* Avatar */}
             <div className="w-11 h-11 rounded-2xl bg-brand/20 border border-brand/30 flex items-center justify-center shrink-0 overflow-hidden">
               {profilePic ? (
-                <img src={profilePic} alt="avatar" className="w-full h-full object-cover" />
+                <Image src={profilePic} alt="avatar" width={44} height={44} className="w-full h-full object-cover" />
               ) : (
                 <span className="text-brand font-bold text-base">
                   {firstName.charAt(0).toUpperCase()}

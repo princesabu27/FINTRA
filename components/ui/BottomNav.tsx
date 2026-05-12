@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { memo, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -26,7 +26,7 @@ const FAB_ACTIONS = [
   { key: "transfer", label: "Transfer", icon: ArrowLeftRight, bg: "bg-brand",    shadow: "shadow-brand/40"    },
 ] as const;
 
-export function BottomNav() {
+export const BottomNav = memo(function BottomNav() {
   const pathname  = usePathname();
   const router    = useRouter();
   const [fabOpen, setFabOpen] = useState(false);
@@ -110,11 +110,8 @@ export function BottomNav() {
               className="relative flex flex-col items-center -mt-5"
             >
               <motion.div
-                animate={fabOpen ? { rotate: 45, scale: 1 } : { rotate: 0, scale: [1, 1.05, 1] }}
-                transition={fabOpen
-                  ? { type: "spring", stiffness: 400, damping: 20 }
-                  : { repeat: Infinity, duration: 3, ease: "easeInOut" }
-                }
+                animate={fabOpen ? { rotate: 45, scale: 1 } : { rotate: 0, scale: 1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg shadow-brand/40"
                 style={{ background: "linear-gradient(135deg, #6C63FF 0%, #00E5A0 100%)" }}
               >
@@ -131,7 +128,7 @@ export function BottomNav() {
       </nav>
     </>
   );
-}
+});
 
 function NavTab({ tab, pathname }: {
   tab: { href: string; icon: React.ElementType; label: string };

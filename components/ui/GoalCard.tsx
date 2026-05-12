@@ -38,7 +38,9 @@ export function GoalCard({ goal, index, onContribute }: GoalCardProps) {
       ease: [0.22, 1, 0.36, 1],
     });
     return ctrl.stop;
-  }, [pct, index, progress]);
+    // index intentionally excluded — animation should only fire once per mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pct, progress]);
 
   const color = goal.is_achieved ? "#22C55E" : pct >= 75 ? "#1B4FFF" : pct >= 40 ? "#F59E0B" : "#4A6FA5";
 
@@ -51,7 +53,7 @@ export function GoalCard({ goal, index, onContribute }: GoalCardProps) {
     >
       <div className="flex items-center gap-4">
         {/* Circular progress ring */}
-        <div className="relative flex-shrink-0" style={{ width: SIZE, height: SIZE }}>
+        <div className="relative shrink-0" style={{ width: SIZE, height: SIZE }}>
           <svg width={SIZE} height={SIZE} className="-rotate-90">
             {/* Track */}
             <circle
@@ -93,7 +95,7 @@ export function GoalCard({ goal, index, onContribute }: GoalCardProps) {
           <div className="flex items-start justify-between gap-2">
             <p className="text-white font-semibold text-sm truncate">{goal.goal_name}</p>
             {goal.is_achieved && (
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-income/20 text-income flex-shrink-0">
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-income/20 text-income shrink-0">
                 Achieved!
               </span>
             )}

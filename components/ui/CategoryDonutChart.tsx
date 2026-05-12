@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import {
   PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
@@ -24,9 +25,9 @@ function CustomTooltip({ active, payload }: any) {
   );
 }
 
-export function CategoryDonutChart({ data }: Props) {
+export const CategoryDonutChart = memo(function CategoryDonutChart({ data }: Props) {
   if (!data.length) return (
-    <div className="h-[220px] flex items-center justify-center text-muted text-sm">No data</div>
+    <div className="h-55 flex items-center justify-center text-muted text-sm">No data</div>
   );
 
   const total = data.reduce((s, d) => s + d.value, 0);
@@ -64,7 +65,7 @@ export function CategoryDonutChart({ data }: Props) {
           <div key={d.name} className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: COLORS[i % COLORS.length] }} />
-              <span className="text-pale text-xs truncate max-w-[120px]">{d.name}</span>
+              <span className="text-pale text-xs truncate max-w-30">{d.name}</span>
             </div>
             <span className="text-white text-xs font-medium">{((d.value / total) * 100).toFixed(0)}%</span>
           </div>
@@ -72,4 +73,4 @@ export function CategoryDonutChart({ data }: Props) {
       </div>
     </div>
   );
-}
+});

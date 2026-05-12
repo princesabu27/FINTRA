@@ -1,0 +1,1 @@
+(function(){try{var t=localStorage.getItem('auro-theme');var p=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.setAttribute('data-theme',t||p)}catch(e){}})();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, PieChart, TrendingDown, TrendingUp, AlertTriangle } from "lucide-react";
 import { useBudgets, useMonthlyIncome } from "@/hooks/useBudgets";
@@ -13,19 +13,15 @@ export default function BudgetsPage() {
   const { data: budgets, isLoading } = useBudgets();
   const { data: monthlyIncome = 0 } = useMonthlyIncome();
 
-  const totalAllocated = (budgets ?? []).reduce(
-    (s, b) => s + b.budget_percentage, 0
-  );
-  const totalSpent = (budgets ?? []).reduce(
-    (s, b) => s + (b.monthly?.used_amount ?? 0), 0
-  );
-  const totalBudgeted = (budgets ?? []).reduce(
-    (s, b) => s + (b.monthly?.amount ?? 0), 0
-  );
-
-  const overBudgetCount = (budgets ?? []).filter(
-    (b) => b.monthly && b.monthly.used_amount > b.monthly.amount
-  ).length;
+  const { totalAllocated, totalSpent, totalBudgeted, overBudgetCount } = useMemo(() => {
+    const arr = budgets ?? [];
+    return {
+      totalAllocated: arr.reduce((s, b) => s + b.budget_percentage, 0),
+      totalSpent:     arr.reduce((s, b) => s + (b.monthly?.used_amount ?? 0), 0),
+      totalBudgeted:  arr.reduce((s, b) => s + (b.monthly?.amount ?? 0), 0),
+      overBudgetCount: arr.filter((b) => b.monthly && b.monthly.used_amount > b.monthly.amount).length,
+    };
+  }, [budgets]);
 
   const monthLabel = new Date().toLocaleString("en-US", {
     month: "long", year: "numeric",

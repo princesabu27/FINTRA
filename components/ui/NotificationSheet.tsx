@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, TrendingDown, TrendingUp, PiggyBank, Wallet, CheckCheck, X } from "lucide-react";
 import { BottomSheet } from "./BottomSheet";
@@ -35,7 +36,7 @@ export function NotificationSheet({ isOpen, onClose }: NotificationSheetProps) {
   const markRead = useMarkRead();
   const { permission, subscribe } = usePushSubscription();
 
-  const unread = notifications.filter((n) => !n.is_read).length;
+  const unread = useMemo(() => notifications.filter((n) => !n.is_read).length, [notifications]);
 
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} title="Notifications" fullHeight>

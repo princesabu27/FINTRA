@@ -28,6 +28,7 @@ export function useAccounts() {
       if (error) throw error;
       return data ?? [];
     },
+    staleTime: 30000,
   });
 }
 

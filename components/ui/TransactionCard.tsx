@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShoppingCart, Utensils, Zap, Car, Home, Heart, Gamepad2,
@@ -30,7 +31,7 @@ interface Props {
   index?: number;
 }
 
-export function TransactionCard({ transaction, index = 0 }: Props) {
+export const TransactionCard = memo(function TransactionCard({ transaction, index = 0 }: Props) {
   const Icon = getCategoryIcon(transaction.category_name);
   const isIncome = transaction.type === "income";
   const { visible } = useAmountsVisible();
@@ -46,7 +47,7 @@ export function TransactionCard({ transaction, index = 0 }: Props) {
       {/* Icon */}
       <div
         className={cn(
-          "w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0",
+          "w-11 h-11 rounded-2xl flex items-center justify-center shrink-0",
           isIncome ? "bg-income/15 text-income" : "bg-expense/10 text-expense"
         )}
       >
@@ -81,9 +82,9 @@ export function TransactionCard({ transaction, index = 0 }: Props) {
       </div>
 
       {/* Direction indicator */}
-      <div className={cn("flex-shrink-0", isIncome ? "text-income/50" : "text-expense/50")}>
+      <div className={cn("shrink-0", isIncome ? "text-income/50" : "text-expense/50")}>
         {isIncome ? <ArrowDownLeft size={14} /> : <ArrowUpRight size={14} />}
       </div>
     </motion.div>
   );
-}
+});
