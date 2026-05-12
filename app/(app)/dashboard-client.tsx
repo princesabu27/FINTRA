@@ -77,7 +77,7 @@ export function DashboardClient({ firstName, lastName, profilePic, initialAccoun
         animate="show"
       >
         {/* Profile card + notification bell */}
-        <motion.div variants={sectionVariants} transition={{ type: "spring", stiffness: 280, damping: 26 }} className="flex items-center justify-between px-4 pt-4 gap-3">
+        <motion.div variants={sectionVariants} transition={{ type: "spring", stiffness: 280, damping: 26 }} className="flex items-center justify-between px-4 sm:px-8 pt-4 gap-3">
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={() => router.push("/profile")}
@@ -132,7 +132,7 @@ export function DashboardClient({ firstName, lastName, profilePic, initialAccoun
         </motion.div>
 
         {/* Quick stats row */}
-        <motion.div variants={sectionVariants} transition={{ type: "spring", stiffness: 280, damping: 26 }} className="px-4 grid grid-cols-3 gap-2.5">
+        <motion.div variants={sectionVariants} transition={{ type: "spring", stiffness: 280, damping: 26 }} className="px-4 sm:px-8 grid grid-cols-3 gap-2.5 sm:gap-4">
           <QuickStat
             icon={<TrendingUp size={14} className="text-income" />}
             label="Income"
@@ -155,7 +155,7 @@ export function DashboardClient({ firstName, lastName, profilePic, initialAccoun
 
         {/* Accounts */}
         <motion.section variants={sectionVariants} transition={{ type: "spring", stiffness: 280, damping: 26 }}>
-          <div className="flex items-center justify-between px-4 mb-3">
+          <div className="flex items-center justify-between px-4 sm:px-8 mb-3">
             <h2 className="text-white font-semibold text-sm">My Accounts</h2>
             <Link
               href="/accounts"
@@ -172,44 +172,49 @@ export function DashboardClient({ firstName, lastName, profilePic, initialAccoun
           )}
         </motion.section>
 
-        {/* Spending breakdown */}
-        {categories.length > 0 && (
-          <motion.section variants={sectionVariants} transition={{ type: "spring", stiffness: 280, damping: 26 }}>
-            <div className="flex items-center justify-between px-4 mb-3">
-              <h2 className="text-white font-semibold text-sm">Spending This Month</h2>
-              <Link href="/statistics" className="flex items-center gap-0.5 text-brand text-xs font-medium">
-                Details <ChevronRight size={13} />
+        {/* Spending + Budget — side by side on wider screens */}
+        <motion.div
+          variants={sectionVariants}
+          transition={{ type: "spring", stiffness: 280, damping: 26 }}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-4 sm:px-8"
+        >
+          {categories.length > 0 && (
+            <section>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-white font-semibold text-sm">Spending This Month</h2>
+                <Link href="/statistics" className="flex items-center gap-0.5 text-brand text-xs font-medium">
+                  Details <ChevronRight size={13} />
+                </Link>
+              </div>
+              <div className="bg-card border border-border rounded-3xl p-4">
+                <CategoryDonutChart data={categories} />
+              </div>
+            </section>
+          )}
+
+          <section>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-white font-semibold text-sm">Budget Health</h2>
+              <Link href="/budgets" className="flex items-center gap-0.5 text-brand text-xs font-medium">
+                Manage <ChevronRight size={13} />
               </Link>
             </div>
-            <div className="mx-4 bg-card border border-border rounded-3xl p-4">
-              <CategoryDonutChart data={categories} />
+            <div className="bg-card border border-border rounded-3xl p-4">
+              <BudgetProgressChart />
             </div>
-          </motion.section>
-        )}
-
-        {/* Budget health */}
-        <motion.section variants={sectionVariants} transition={{ type: "spring", stiffness: 280, damping: 26 }}>
-          <div className="flex items-center justify-between px-4 mb-3">
-            <h2 className="text-white font-semibold text-sm">Budget Health</h2>
-            <Link href="/budgets" className="flex items-center gap-0.5 text-brand text-xs font-medium">
-              Manage <ChevronRight size={13} />
-            </Link>
-          </div>
-          <div className="mx-4 bg-card border border-border rounded-3xl p-4">
-            <BudgetProgressChart />
-          </div>
-        </motion.section>
+          </section>
+        </motion.div>
 
         {/* Goals progress */}
         {activeGoals.length > 0 && (
           <motion.section variants={sectionVariants} transition={{ type: "spring", stiffness: 280, damping: 26 }}>
-            <div className="flex items-center justify-between px-4 mb-3">
+            <div className="flex items-center justify-between px-4 sm:px-8 mb-3">
               <h2 className="text-white font-semibold text-sm">Savings Goals</h2>
               <Link href="/goals" className="flex items-center gap-0.5 text-brand text-xs font-medium">
                 {activeGoals.length} active <ChevronRight size={13} />
               </Link>
             </div>
-            <div className="flex gap-3 px-4 overflow-x-auto pb-1 scrollbar-hide">
+            <div className="flex gap-3 px-4 sm:px-8 overflow-x-auto pb-1 scrollbar-hide">
               {activeGoals.slice(0, 5).map((goal, i) => (
                 <GoalCard key={goal.goal_id} goal={goal} index={i} />
               ))}
@@ -219,7 +224,7 @@ export function DashboardClient({ firstName, lastName, profilePic, initialAccoun
 
         {/* Transactions */}
         <motion.section variants={sectionVariants} transition={{ type: "spring", stiffness: 280, damping: 26 }} className="flex-1">
-          <div className="flex items-center justify-between px-4 mb-2">
+          <div className="flex items-center justify-between px-4 sm:px-8 mb-2">
             <h2 className="text-white font-semibold text-sm">Recent Transactions</h2>
             <span className="text-pale text-xs">{initialTransactions.length} items</span>
           </div>

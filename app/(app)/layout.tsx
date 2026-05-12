@@ -3,7 +3,7 @@ import { PageTransition } from "@/components/ui/PageTransition";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen max-w-md mx-auto bg-navy relative">
+    <div className="min-h-screen max-w-2xl mx-auto bg-navy relative">
       <main className="pb-28">
         <PageTransition>{children}</PageTransition>
       </main>

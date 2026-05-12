@@ -109,12 +109,12 @@ export default function PayPage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="px-4 pt-5 pb-3 flex-shrink-0">
+      <div className="px-4 sm:px-8 pt-5 pb-3 flex-shrink-0">
         <h1 className="text-white text-xl font-bold">Transfer</h1>
         <p className="text-pale text-xs mt-0.5">Move money between your accounts</p>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 pb-6 flex flex-col gap-4">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-8 pb-6 flex flex-col gap-4">
 
         {/* Amount hero */}
         <div className="bg-surface border border-border rounded-3xl px-5 py-5 flex flex-col items-center">

@@ -47,7 +47,7 @@ export default function AccountsPage() {
   return (
     <div className="flex flex-col">
       {/* Header */}
-      <div className="px-4 pt-5 pb-4 shrink-0">
+      <div className="px-4 sm:px-8 pt-5 pb-4 shrink-0">
         <div className="flex items-center justify-between mb-5">
           <div>
             <h1 className="text-white text-xl font-bold">Accounts</h1>
@@ -89,16 +89,18 @@ export default function AccountsPage() {
         ) : (accounts ?? []).length === 0 ? (
           <EmptyAccounts onAdd={() => setSheetOpen(true)} />
         ) : (
-          <AnimatePresence mode="popLayout">
-            {(accounts ?? []).map((account, i) => (
-              <SwipeableAccountCard
-                key={account.account_id}
-                account={account}
-                onDelete={handleDelete}
-                index={i}
-              />
-            ))}
-          </AnimatePresence>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-0 sm:gap-3 sm:px-8">
+            <AnimatePresence mode="popLayout">
+              {(accounts ?? []).map((account, i) => (
+                <SwipeableAccountCard
+                  key={account.account_id}
+                  account={account}
+                  onDelete={handleDelete}
+                  index={i}
+                />
+              ))}
+            </AnimatePresence>
+          </div>
         )}
 
         {/* Swipe hint */}

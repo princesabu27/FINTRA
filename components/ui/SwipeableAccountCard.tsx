@@ -53,7 +53,7 @@ export function SwipeableAccountCard({ account, onDelete, index }: SwipeableAcco
   );
 
   return (
-    <div className="relative mx-4 mb-3">
+    <div className="relative mx-4 sm:mx-0 mb-3">
       {/* Delete backdrop */}
       <motion.div
         style={{ opacity: deleteOpacity }}

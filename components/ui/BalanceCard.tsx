@@ -32,7 +32,7 @@ export function BalanceCard({
   }, [totalBalance, spring]);
 
   return (
-    <div className="relative mx-4 rounded-3xl overflow-hidden p-6 shadow-2xl shadow-brand/20"
+    <div className="relative mx-4 sm:mx-8 rounded-3xl overflow-hidden p-6 sm:p-8 shadow-2xl shadow-brand/20"
       style={{
         background: "linear-gradient(135deg, rgba(108,99,255,0.45) 0%, rgba(0,229,160,0.20) 100%)",
         backdropFilter: "blur(32px)",

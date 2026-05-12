@@ -34,7 +34,7 @@ export default function BudgetsPage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="px-4 pt-5 pb-3 flex-shrink-0">
+      <div className="px-4 sm:px-8 pt-5 pb-3 shrink-0">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-white text-xl font-bold">Budgets</h1>
@@ -123,15 +123,17 @@ export default function BudgetsPage() {
       </div>
 
       {/* Budget list */}
-      <div className="flex-1 overflow-y-auto px-4 pb-6 flex flex-col gap-3">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-8 pb-6">
         {isLoading ? (
-          <BudgetsSkeleton />
+          <div className="flex flex-col gap-3"><BudgetsSkeleton /></div>
         ) : (budgets ?? []).length === 0 ? (
           <EmptyBudgets onAdd={() => setSheetOpen(true)} />
         ) : (
-          (budgets ?? []).map((b, i) => (
-            <BudgetBar key={b.budget_id} budget={b} index={i} />
-          ))
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            {(budgets ?? []).map((b, i) => (
+              <BudgetBar key={b.budget_id} budget={b} index={i} />
+            ))}
+          </div>
         )}
       </div>
 

@@ -59,7 +59,7 @@ export function BottomNav() {
         )}
       </AnimatePresence>
 
-      <nav className="fixed bottom-0 left-0 right-0 z-50 max-w-md mx-auto">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 max-w-2xl mx-auto">
         {/* FAB action bubbles */}
         <AnimatePresence>
           {fabOpen && (

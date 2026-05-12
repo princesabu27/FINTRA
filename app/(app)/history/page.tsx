@@ -64,7 +64,7 @@ export default function HistoryPage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="px-4 pt-5 pb-3 shrink-0">
+      <div className="px-4 sm:px-8 pt-5 pb-3 shrink-0">
         <h1 className="text-white text-xl font-bold">History</h1>
         <p className="text-pale text-xs mt-0.5">All transactions</p>
 
@@ -110,7 +110,7 @@ export default function HistoryPage() {
       </div>
 
       {/* List */}
-      <div className="flex-1 overflow-y-auto px-4 pb-6">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-8 pb-6">
         {isLoading ? (
           <HistorySkeleton />
         ) : groups.length === 0 ? (

@@ -98,7 +98,7 @@ export default function AddExpensePage() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="px-4 pt-5 pb-3 flex-shrink-0 flex items-center gap-3">
+      <div className="px-4 sm:px-8 pt-5 pb-3 shrink-0 flex items-center gap-3">
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={() => router.back()}
@@ -114,7 +114,7 @@ export default function AddExpensePage() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 pb-8 flex flex-col gap-4">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-8 pb-8 flex flex-col gap-4">
 
         {/* Amount hero */}
         <div className="bg-surface border border-expense/20 rounded-3xl px-5 py-5 flex flex-col items-center"
@@ -198,7 +198,7 @@ export default function AddExpensePage() {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-surface border border-border rounded-2xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-expense transition-colors [color-scheme:dark]"
+              className="w-full bg-surface border border-border rounded-2xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-expense transition-colors scheme-dark"
             />
           </div>
         </div>
@@ -226,7 +226,7 @@ export default function AddExpensePage() {
             >
               <div className="flex items-center gap-2">
                 <TrendingDown size={14} className="text-expense" />
-                <span className="text-white text-xs font-medium truncate max-w-[160px]">{name}</span>
+                <span className="text-white text-xs font-medium truncate max-w-40">{name}</span>
               </div>
               <span className="text-expense font-bold text-sm">-{formatCurrency(num)}</span>
             </motion.div>

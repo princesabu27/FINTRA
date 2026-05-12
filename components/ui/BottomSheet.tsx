@@ -65,7 +65,7 @@ export function BottomSheet({
             dragElastic={{ top: 0, bottom: 0.4 }}
             onDragEnd={handleDragEnd}
             style={{ y }}
-            className={`fixed bottom-18 left-0 right-0 z-50 max-w-md mx-auto glass-strong rounded-t-3xl overflow-hidden flex flex-col ${
+            className={`fixed bottom-18 left-0 right-0 z-50 max-w-2xl mx-auto glass-strong rounded-t-3xl overflow-hidden flex flex-col ${
               fullHeight ? "h-[calc(92vh-4.5rem)]" : "max-h-[calc(92vh-4.5rem)]"
             }`}
           >

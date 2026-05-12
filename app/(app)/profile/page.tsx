@@ -93,7 +93,7 @@ export default function ProfilePage() {
       <div className="flex-1 overflow-y-auto pb-6">
 
         {/* Hero section */}
-        <div className="px-4 pt-8 pb-5 flex flex-col items-center text-center">
+        <div className="px-4 sm:px-8 pt-8 pb-5 flex flex-col items-center text-center">
           <div className="relative mb-4">
             <div className="w-20 h-20 rounded-3xl bg-brand/20 border-2 border-brand/40 flex items-center justify-center">
               {profile?.profile_pic ? (
@@ -181,7 +181,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Net worth banner */}
-        <div className="mx-4 bg-brand/10 border border-brand/20 rounded-2xl px-4 py-4 flex items-center justify-between mb-4">
+        <div className="mx-4 sm:mx-8 bg-brand/10 border border-brand/20 rounded-2xl px-4 py-4 flex items-center justify-between mb-4">
           <div>
             <p className="text-pale text-xs uppercase tracking-wide mb-1">Net Worth</p>
             <p className="text-white text-2xl font-bold">{formatCurrency(totalBalance)}</p>
@@ -192,7 +192,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Stats grid */}
-        <div className="mx-4 grid grid-cols-2 gap-3 mb-4">
+        <div className="mx-4 sm:mx-8 grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
           <StatCard
             icon={<Wallet size={16} className="text-brand" />}
             label="Accounts"
@@ -224,7 +224,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Menu sections */}
-        <div className="mx-4 flex flex-col gap-3">
+        <div className="mx-4 sm:mx-8 flex flex-col gap-3">
           <MenuSection title="Features">
             <MenuItem icon={<Sparkles size={16} className="text-brand" />} label="AI Insights" href="/insights" />
             <MenuItem icon={<BarChart2 size={16} className="text-pale" />} label="Statistics" href="/statistics" />
