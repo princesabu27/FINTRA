@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   User, Edit3, Check, X, LogOut, ChevronRight,
-  BarChart2, Wallet, Target, PieChart, Shield, Sparkles, Tag, Sun, Moon,
+  BarChart2, Wallet, Target, PieChart, Shield, Sparkles, Tag, Sun, Moon, FileSpreadsheet,
 } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import { useRouter } from "next/navigation";
@@ -27,6 +27,20 @@ export default function ProfilePage() {
 
   const { theme, toggle: toggleTheme } = useTheme();
   const [editing, setEditing] = useState(false);
+  const [sendingReport, setSendingReport] = useState(false);
+
+  const handleSendReport = useCallback(async () => {
+    setSendingReport(true);
+    try {
+      const res = await fetch("/api/reports/send", { method: "POST" });
+      if (!res.ok) throw new Error("Failed");
+      toast.success("Report sent to your email!");
+    } catch {
+      toast.error("Could not send report. Check your RESEND_API_KEY.");
+    } finally {
+      setSendingReport(false);
+    }
+  }, []);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -215,6 +229,11 @@ export default function ProfilePage() {
             <MenuItem icon={<Sparkles size={16} className="text-brand" />} label="AI Insights" href="/insights" />
             <MenuItem icon={<BarChart2 size={16} className="text-pale" />} label="Statistics" href="/statistics" />
             <MenuItem icon={<Tag size={16} className="text-pale" />} label="Categories" href="/categories" />
+            <MenuItem
+              icon={<FileSpreadsheet size={16} className="text-income" />}
+              label={sendingReport ? "Sending report…" : "Email Monthly Report"}
+              onPress={sendingReport ? undefined : handleSendReport}
+            />
           </MenuSection>
 
           <MenuSection title="Account">
