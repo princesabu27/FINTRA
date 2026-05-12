@@ -1,13 +1,14 @@
 import { BottomNav } from "@/components/ui/BottomNav";
-import { PageTransition } from "@/components/ui/PageTransition";
+import { InstallPrompt } from "@/components/ui/InstallPrompt";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen max-w-2xl mx-auto bg-navy relative">
       <main className="pb-28">
-        <PageTransition>{children}</PageTransition>
+        {children}
       </main>
       <BottomNav />
+      <InstallPrompt />
     </div>
   );
 }
