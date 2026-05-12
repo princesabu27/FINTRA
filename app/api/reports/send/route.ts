@@ -2,20 +2,25 @@ import { NextRequest, NextResponse } from "next/server";
 import ExcelJS from "exceljs";
 import { Resend } from "resend";
 import { createClient as createServerClient } from "@/lib/supabase/server";
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import { createClient as createSupabaseClient, type SupabaseClient } from "@supabase/supabase-js";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 
-const BRAND   = { argb: "FF6C63FF" };
-const INCOME  = { argb: "FF00E5A0" };
-const EXPENSE = { argb: "FFFF5C7A" };
-const HEADER_FONT = { bold: true, color: { argb: "FFFFFFFF" }, size: 11 };
-const THIN_BORDER: ExcelJS.Border = { style: "thin", color: { argb: "FFE2E8F0" } };
+const BRAND_ARGB   = "FF6C63FF";
+const INCOME_ARGB  = "FF00E5A0";
+const EXPENSE_ARGB = "FFFF5C7A";
+const WHITE_ARGB   = "FFFFFFFF";
+const BORDER_ARGB  = "FFE2E8F0";
+
+const HEADER_FONT = { bold: true, color: { argb: WHITE_ARGB }, size: 11 };
+const THIN_BORDER: ExcelJS.Border = { style: "thin", color: { argb: BORDER_ARGB } };
 const ALL_BORDERS = { top: THIN_BORDER, left: THIN_BORDER, bottom: THIN_BORDER, right: THIN_BORDER };
 
-function headerFill(argb: ExcelJS.Color): ExcelJS.Fill {
-  return { type: "pattern", pattern: "solid", fgColor: argb };
+function headerFill(argb: string): ExcelJS.Fill {
+  return { type: "pattern", pattern: "solid", fgColor: { argb } };
 }
+
+const INCOME_COLOR  = { argb: INCOME_ARGB };
+const EXPENSE_COLOR = { argb: EXPENSE_ARGB };
 
 function applyHeaderRow(row: ExcelJS.Row, fill: ExcelJS.Fill) {
   row.font = HEADER_FONT;
@@ -39,7 +44,7 @@ async function buildWorkbook(data: ReportData, monthLabel: string): Promise<Exce
     { header: "Metric", key: "metric", width: 28 },
     { header: "Value",  key: "value",  width: 22 },
   ];
-  applyHeaderRow(summary.getRow(1), headerFill(BRAND));
+  applyHeaderRow(summary.getRow(1), headerFill(BRAND_ARGB));
 
   const totalIncome  = data.income.reduce((s, r) => s + r.amount, 0);
   const totalExpense = data.expenses.reduce((s, r) => s + r.amount, 0);
@@ -60,7 +65,7 @@ async function buildWorkbook(data: ReportData, monthLabel: string): Promise<Exce
     const row = summary.addRow({ metric, value });
     if (typeof value === "number") {
       row.getCell("value").numFmt = `"${data.currency} "#,##0.00`;
-      const color = i === 1 ? INCOME : i === 2 ? EXPENSE : i === 3 ? (netSavings >= 0 ? INCOME : EXPENSE) : undefined;
+      const color = i === 1 ? INCOME_COLOR : i === 2 ? EXPENSE_COLOR : i === 3 ? (netSavings >= 0 ? INCOME_COLOR : EXPENSE_COLOR) : undefined;
       if (color) row.getCell("value").font = { bold: true, color };
     }
     styleDataRow(row);
@@ -77,7 +82,7 @@ async function buildWorkbook(data: ReportData, monthLabel: string): Promise<Exce
     { header: "Currency", key: "currency", width: 10 },
     { header: "Account",  key: "account",  width: 22 },
   ];
-  applyHeaderRow(txSheet.getRow(1), headerFill(BRAND));
+  applyHeaderRow(txSheet.getRow(1), headerFill(BRAND_ARGB));
 
   const allTx = [
     ...data.income.map(r => ({ ...r, type: "Income" })),
@@ -87,7 +92,7 @@ async function buildWorkbook(data: ReportData, monthLabel: string): Promise<Exce
   allTx.forEach((tx) => {
     const row = txSheet.addRow(tx);
     row.getCell("amount").numFmt = "#,##0.00";
-    row.getCell("type").font = { bold: true, color: tx.type === "Income" ? INCOME : EXPENSE };
+    row.getCell("type").font = { bold: true, color: tx.type === "Income" ? INCOME_COLOR : EXPENSE_COLOR };
     styleDataRow(row);
   });
 
@@ -99,13 +104,13 @@ async function buildWorkbook(data: ReportData, monthLabel: string): Promise<Exce
     { header: "Balance",      key: "balance",  width: 18 },
     { header: "Currency",     key: "currency", width: 10 },
   ];
-  applyHeaderRow(accSheet.getRow(1), headerFill(BRAND));
+  applyHeaderRow(accSheet.getRow(1), headerFill(BRAND_ARGB));
 
   data.accounts.forEach((acc) => {
     const row = accSheet.addRow(acc);
     row.getCell("balance").numFmt = "#,##0.00";
     const isNeg = acc.balance < 0;
-    row.getCell("balance").font = { bold: true, color: isNeg ? EXPENSE : INCOME };
+    row.getCell("balance").font = { bold: true, color: isNeg ? EXPENSE_COLOR : INCOME_COLOR };
     styleDataRow(row);
   });
 
@@ -116,7 +121,7 @@ async function buildWorkbook(data: ReportData, monthLabel: string): Promise<Exce
     { header: "Total Spent", key: "total",    width: 18 },
     { header: "% of Total",  key: "pct",      width: 14 },
   ];
-  applyHeaderRow(catSheet.getRow(1), headerFill(EXPENSE));
+  applyHeaderRow(catSheet.getRow(1), headerFill(EXPENSE_ARGB));
 
   const catMap: Record<string, number> = {};
   data.expenses.forEach((e) => { catMap[e.category] = (catMap[e.category] ?? 0) + e.amount; });
@@ -138,7 +143,8 @@ interface TxRow { date: string; name: string; category: string; amount: number; 
 interface AccRow { name: string; type: string; balance: number; currency: string; }
 interface ReportData { income: TxRow[]; expenses: TxRow[]; accounts: AccRow[]; currency: string; }
 
-async function fetchUserData(supabase: ReturnType<typeof createSupabaseClient>, userId: string, start: string, end: string): Promise<ReportData> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function fetchUserData(supabase: SupabaseClient<any>, userId: string, start: string, end: string): Promise<ReportData> {
   const [{ data: expenses }, { data: incomes }, { data: accounts }] = await Promise.all([
     supabase
       .from("expense_records")
@@ -194,6 +200,7 @@ async function fetchUserData(supabase: ReturnType<typeof createSupabaseClient>, 
 // ── Route handler ─────────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   const now   = new Date();
   // Report covers the previous month
   const reportDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
