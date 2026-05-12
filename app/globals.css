@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+/* ── Auro Glassmorphism color system (Tailwind v4 theme) ────────── */
+@theme {
+  --color-brand:   #6C63FF;
+  --color-income:  #00E5A0;
+  --color-expense: #FF5C7A;
+  --color-warning: #FFB627;
+
+  /* These reference CSS vars so they switch with theme */
+  --color-navy:    var(--bg-base);
+  --color-card:    var(--glass-fill);
+  --color-surface: var(--surface-fill);
+  --color-border:  var(--border-fill);
+  --color-muted:   var(--text-muted);
+  --color-pale:    var(--text-pale);
+}
+
+/* ── Dark theme (default) ──────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-base:       #0B0F1A;
+  --bg-gradient-1: rgba(108,99,255,0.28);
+  --bg-gradient-2: rgba(0,229,160,0.14);
+  --bg-gradient-3: rgba(255,92,122,0.10);
+
+  --glass-fill:    rgba(255,255,255,0.06);
+  --glass-strong:  rgba(255,255,255,0.10);
+  --glass-border:  rgba(255,255,255,0.10);
+  --glass-strong-border: rgba(255,255,255,0.16);
+
+  --surface-fill:  rgba(255,255,255,0.04);
+  --border-fill:   rgba(255,255,255,0.10);
+
+  --text-primary:  #ffffff;
+  --text-pale:     #9AADCC;
+  --text-muted:    #5B6A8A;
+
+  --nav-bg-from:   rgba(20,16,48,0.92);
+  --nav-bg-to:     rgba(14,11,36,0.97);
+  --nav-border:    rgba(108,99,255,0.30);
+  --nav-shadow:    rgba(108,99,255,0.12);
+
+  --input-bg:      rgba(255,255,255,0.05);
+  --input-border:  rgba(255,255,255,0.10);
+
+  --card-bg:       rgba(255,255,255,0.06);
+  --skeleton-bg:   rgba(255,255,255,0.06);
+}
+
+/* ── Light theme ───────────────────────────────────────────────── */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-base:       #F0F2FF;
+  --bg-gradient-1: rgba(108,99,255,0.12);
+  --bg-gradient-2: rgba(0,229,160,0.08);
+  --bg-gradient-3: rgba(255,92,122,0.06);
+
+  --glass-fill:    rgba(255,255,255,0.65);
+  --glass-strong:  rgba(255,255,255,0.80);
+  --glass-border:  rgba(108,99,255,0.15);
+  --glass-strong-border: rgba(108,99,255,0.20);
+
+  --surface-fill:  rgba(255,255,255,0.50);
+  --border-fill:   rgba(108,99,255,0.15);
+
+  --text-primary:  #0B0F1A;
+  --text-pale:     #4A5568;
+  --text-muted:    #9AADCC;
+
+  --nav-bg-from:   rgba(240,242,255,0.92);
+  --nav-bg-to:     rgba(235,237,255,0.97);
+  --nav-border:    rgba(108,99,255,0.25);
+  --nav-shadow:    rgba(108,99,255,0.10);
+
+  --input-bg:      rgba(255,255,255,0.70);
+  --input-border:  rgba(108,99,255,0.20);
+
+  --card-bg:       rgba(255,255,255,0.65);
+  --skeleton-bg:   rgba(108,99,255,0.08);
+}
+
+/* ── Base ──────────────────────────────────────────────────────── */
+html, body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  height: 100%;
+  overscroll-behavior: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ambient gradient background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, var(--bg-gradient-1) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, var(--bg-gradient-2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 60% 30%, var(--bg-gradient-3) 0%, transparent 50%),
+    var(--bg-base);
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+/* ── Text colours driven by theme ──────────────────────────────── */
+.text-white   { color: var(--text-primary) !important; }
+.text-pale    { color: var(--text-pale) !important; }
+.text-muted   { color: var(--text-muted) !important; }
+.placeholder-muted::placeholder { color: var(--text-muted); }
+
+/* ── Backgrounds driven by theme ───────────────────────────────── */
+.bg-navy    { background-color: var(--bg-base) !important; }
+.bg-card    { background: var(--card-bg) !important; }
+.bg-surface { background: var(--surface-fill) !important; }
+.border-border { border-color: var(--border-fill) !important; }
+
+/* Inputs — defaults only, no !important so component classes can override */
+input, select, textarea {
+  background: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--text-primary);
+}
+input::placeholder, textarea::placeholder {
+  color: var(--text-muted);
+}
+option { background: var(--bg-base) !important; color: var(--text-primary) !important; }
+
+/* ── Glass utilities ─────────────────────────────────────────────── */
+.glass {
+  background: var(--glass-fill);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-strong {
+  background: var(--glass-strong);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid var(--glass-strong-border);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-nav {
+  background: linear-gradient(180deg, var(--nav-bg-from) 0%, var(--nav-bg-to) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--nav-border);
+  box-shadow: 0 -4px 32px var(--nav-shadow);
+  transition: background 0.3s ease;
+}
+
+/* ── Gradient text ───────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-pale) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-brand {
+  background: linear-gradient(135deg, #6C63FF 0%, #00E5A0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Skeletons ───────────────────────────────────────────────────── */
+.animate-pulse { background: var(--skeleton-bg) !important; }
+
+/* ── Misc ────────────────────────────────────────────────────────── */
+* { -webkit-tap-highlight-color: transparent; }
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+html { scroll-behavior: smooth; }
+
+.pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.mb-nav  { margin-bottom: 80px; }
